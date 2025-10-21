@@ -1,0 +1,141 @@
+<script setup>
+import {onMounted, ref} from "vue";
+import useFetch from "@/composables/useFetch.js";
+import StandingsTeam from "@/components/StandingsTeam.vue";
+
+const standingsDisplay = ref("league");
+const teams = ref([]);
+const westernConference = ref([])
+const easternConference = ref([])
+const atlanticDivision = ref([]);
+const metropolitanDivision = ref([]);
+const centralDivision = ref([]);
+const pacificDivision = ref([]);
+
+const now = new Date();
+const year = now.getFullYear();
+const month = (now.getMonth() + 1).toString().padStart(2, '0');
+const day = now.getDate().toString().padStart(2, '0');
+const formattedDate = `${year}-${month}-${day}`;
+
+const [startFetch] = useFetch(`/nhl/standings/${formattedDate}`);
+
+onMounted(async () => {
+  let teamsData = await startFetch();
+
+  teams.value = teamsData.standings.map(function(elem) {
+    return {
+      teamName: elem.teamName.default,
+      teamLogo: elem.teamLogo,
+      points:   elem.points,
+      wins:     elem.wins,
+      losses:   elem.losses,
+      otLosses: elem.otLosses,
+      gamesPlayed: elem.gamesPlayed,
+      conference: elem.conferenceName,
+      division: elem.divisionName
+    };
+  });
+
+  westernConference.value = teams.value.filter(team => team.conference === "Western");
+  easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
+
+  atlanticDivision.value = teams.value.filter(team => team.division === "Atlantic");
+  metropolitanDivision.value = teams.value.filter(team => team.division === "Metropolitan");
+  centralDivision.value = teams.value.filter(team => team.division === "Central");
+  pacificDivision.value = teams.value.filter(team => team.division === "Pacific");
+});
+
+</script>
+
+<template>
+  <div>Displaying {{standingsDisplay}}</div>
+  <select v-model="standingsDisplay">
+    <option value="league">League</option>
+    <option value="conference">Conference</option>
+    <option value="division">Division</option>
+  </select>
+
+  <div v-if="standingsDisplay === 'league'" class="flex-container">
+    <div class="flex-items">
+      <div><h1>League Standings</h1></div>
+      <StandingsTeam v-for="team in teams" :team="team" />
+    </div>
+  </div>
+
+  <div v-if="standingsDisplay === 'conference'" class="flex-container-conference">
+    <div class="flex-items-conference">
+      <div><h1>Western Standings</h1></div>
+      <StandingsTeam v-for="team in westernConference" :team="team" />
+    </div>
+    <div class="flex-items-conference">
+      <div><h1>Eastern Standings</h1></div>
+      <StandingsTeam v-for="team in easternConference" :team="team" />
+    </div>
+  </div>
+
+  <div v-if="standingsDisplay === 'division'" class="divisions">
+    <div>
+      <h1>Central</h1>
+      <StandingsTeam v-for="team in centralDivision" :team="team" />
+    </div>
+    <div>
+      <h1>Atlantic</h1>
+      <StandingsTeam v-for="team in atlanticDivision" :team="team" />
+    </div>
+    <div>
+      <h1>Pacific</h1>
+      <StandingsTeam v-for="team in pacificDivision" :team="team" />
+    </div>
+    <div>
+      <h1>Metropolitan</h1>
+      <StandingsTeam v-for="team in metropolitanDivision" :team="team" />
+    </div>
+  </div>
+
+</template>
+
+<style scoped>
+.flex-container-conference {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: normal;
+  align-content: normal;
+}
+
+.flex-items-conference {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: normal;
+}
+
+.flex-items {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+.divisions {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 4px;
+}
+</style>
