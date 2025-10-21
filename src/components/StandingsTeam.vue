@@ -5,14 +5,14 @@ defineProps(["team"]);
 <template>
   <div class="parent">
     <div>
-      <img :src="team.teamLogo" alt="logo" class="logo"/>
+      <img :src="team.teamLogo" alt="logo" class="logo" />
     </div>
     <div class="team">
-      <div>{{team.teamName}}</div>
-      <div>({{ team.wins }}-{{team.losses}}-{{team.otLosses}})</div>
+      <div>{{ team.teamName }}</div>
+      <div>({{ team.wins }}-{{ team.losses }}-{{ team.otLosses }})</div>
     </div>
     <div class="points">
-      {{team.points}}
+      {{ team.points }}
     </div>
   </div>
 </template>

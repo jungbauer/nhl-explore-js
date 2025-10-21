@@ -1,12 +1,12 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import useFetch from "@/composables/useFetch.js";
 import StandingsTeam from "@/components/StandingsTeam.vue";
 
 const standingsDisplay = ref("league");
 const teams = ref([]);
-const westernConference = ref([])
-const easternConference = ref([])
+const westernConference = ref([]);
+const easternConference = ref([]);
 const atlanticDivision = ref([]);
 const metropolitanDivision = ref([]);
 const centralDivision = ref([]);
@@ -14,8 +14,8 @@ const pacificDivision = ref([]);
 
 const now = new Date();
 const year = now.getFullYear();
-const month = (now.getMonth() + 1).toString().padStart(2, '0');
-const day = now.getDate().toString().padStart(2, '0');
+const month = (now.getMonth() + 1).toString().padStart(2, "0");
+const day = now.getDate().toString().padStart(2, "0");
 const formattedDate = `${year}-${month}-${day}`;
 
 const [startFetch] = useFetch(`/nhl/standings/${formattedDate}`);
@@ -23,33 +23,44 @@ const [startFetch] = useFetch(`/nhl/standings/${formattedDate}`);
 onMounted(async () => {
   let teamsData = await startFetch();
 
-  teams.value = teamsData.standings.map(function(elem) {
+  teams.value = teamsData.standings.map(function (elem) {
     return {
       teamName: elem.teamName.default,
       teamLogo: elem.teamLogo,
-      points:   elem.points,
-      wins:     elem.wins,
-      losses:   elem.losses,
+      points: elem.points,
+      wins: elem.wins,
+      losses: elem.losses,
       otLosses: elem.otLosses,
       gamesPlayed: elem.gamesPlayed,
       conference: elem.conferenceName,
-      division: elem.divisionName
+      division: elem.divisionName,
     };
   });
 
-  westernConference.value = teams.value.filter(team => team.conference === "Western");
-  easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
+  westernConference.value = teams.value.filter(
+    (team) => team.conference === "Western",
+  );
+  easternConference.value = teams.value.filter(
+    (team) => team.conference === "Eastern",
+  );
 
-  atlanticDivision.value = teams.value.filter(team => team.division === "Atlantic");
-  metropolitanDivision.value = teams.value.filter(team => team.division === "Metropolitan");
-  centralDivision.value = teams.value.filter(team => team.division === "Central");
-  pacificDivision.value = teams.value.filter(team => team.division === "Pacific");
+  atlanticDivision.value = teams.value.filter(
+    (team) => team.division === "Atlantic",
+  );
+  metropolitanDivision.value = teams.value.filter(
+    (team) => team.division === "Metropolitan",
+  );
+  centralDivision.value = teams.value.filter(
+    (team) => team.division === "Central",
+  );
+  pacificDivision.value = teams.value.filter(
+    (team) => team.division === "Pacific",
+  );
 });
-
 </script>
 
 <template>
-  <div>Displaying {{standingsDisplay}}</div>
+  <div>Displaying {{ standingsDisplay }}</div>
   <select v-model="standingsDisplay">
     <option value="league">League</option>
     <option value="conference">Conference</option>
@@ -63,7 +74,10 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div v-if="standingsDisplay === 'conference'" class="flex-container-conference">
+  <div
+    v-if="standingsDisplay === 'conference'"
+    class="flex-container-conference"
+  >
     <div class="flex-items-conference">
       <div><h1>Western Standings</h1></div>
       <StandingsTeam v-for="team in westernConference" :team="team" />
@@ -92,7 +106,6 @@ onMounted(async () => {
       <StandingsTeam v-for="team in metropolitanDivision" :team="team" />
     </div>
   </div>
-
 </template>
 
 <style scoped>
