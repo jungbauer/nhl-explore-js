@@ -39,3 +39,6 @@ npm run build
 
 ## other
 https://www.jetbrains.com/help/idea/vue-js.html
+
+## Useful links
+https://vueschool.io/articles/vuejs-tutorials/eslint-and-prettier-with-vite-and-vue-js-3/
