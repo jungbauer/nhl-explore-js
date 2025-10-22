@@ -70,7 +70,7 @@ onMounted(async () => {
   <div v-if="standingsDisplay === 'league'" class="flex-container">
     <div class="flex-items">
       <div><h1>League Standings</h1></div>
-      <StandingsTeam v-for="team in teams" :team="team" />
+      <StandingsTeam v-for="(team, i) in teams" :key="'l' + i" :team="team" />
     </div>
   </div>
 
@@ -80,30 +80,54 @@ onMounted(async () => {
   >
     <div class="flex-items-conference">
       <div><h1>Western Standings</h1></div>
-      <StandingsTeam v-for="team in westernConference" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in westernConference"
+        :key="'wc' + i"
+        :team="team"
+      />
     </div>
     <div class="flex-items-conference">
       <div><h1>Eastern Standings</h1></div>
-      <StandingsTeam v-for="team in easternConference" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in easternConference"
+        :key="'wc' + i"
+        :team="team"
+      />
     </div>
   </div>
 
   <div v-if="standingsDisplay === 'division'" class="divisions">
     <div>
       <h1>Central</h1>
-      <StandingsTeam v-for="team in centralDivision" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in centralDivision"
+        :key="'cd' + i"
+        :team="team"
+      />
     </div>
     <div>
       <h1>Atlantic</h1>
-      <StandingsTeam v-for="team in atlanticDivision" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in atlanticDivision"
+        :key="'ad' + i"
+        :team="team"
+      />
     </div>
     <div>
       <h1>Pacific</h1>
-      <StandingsTeam v-for="team in pacificDivision" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in pacificDivision"
+        :key="'pd' + i"
+        :team="team"
+      />
     </div>
     <div>
       <h1>Metropolitan</h1>
-      <StandingsTeam v-for="team in metropolitanDivision" :team="team" />
+      <StandingsTeam
+        v-for="(team, i) in metropolitanDivision"
+        :key="'md' + i"
+        :team="team"
+      />
     </div>
   </div>
 </template>
