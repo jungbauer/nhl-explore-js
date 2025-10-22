@@ -1,9 +1,9 @@
 <script setup>
-import Standings from "@/components/Standings.vue";
+import StandingsView from "@/components/StandingsView.vue";
 </script>
 
 <template>
-  <Standings></Standings>
+  <StandingsView></StandingsView>
 </template>
 
 <style scoped></style>
