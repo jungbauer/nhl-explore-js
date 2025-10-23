@@ -38,25 +38,13 @@ onMounted(async () => {
     };
   });
 
-  westernConference.value = teams.value.filter(
-    (team) => team.conference === "Western",
-  );
-  easternConference.value = teams.value.filter(
-    (team) => team.conference === "Eastern",
-  );
+  westernConference.value = teams.value.filter((team) => team.conference === "Western");
+  easternConference.value = teams.value.filter((team) => team.conference === "Eastern");
 
-  atlanticDivision.value = teams.value.filter(
-    (team) => team.division === "Atlantic",
-  );
-  metropolitanDivision.value = teams.value.filter(
-    (team) => team.division === "Metropolitan",
-  );
-  centralDivision.value = teams.value.filter(
-    (team) => team.division === "Central",
-  );
-  pacificDivision.value = teams.value.filter(
-    (team) => team.division === "Pacific",
-  );
+  atlanticDivision.value = teams.value.filter((team) => team.division === "Atlantic");
+  metropolitanDivision.value = teams.value.filter((team) => team.division === "Metropolitan");
+  centralDivision.value = teams.value.filter((team) => team.division === "Central");
+  pacificDivision.value = teams.value.filter((team) => team.division === "Pacific");
 });
 </script>
 
@@ -75,60 +63,33 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div
-    v-if="standingsDisplay === 'conference'"
-    class="flex-container-conference"
-  >
+  <div v-if="standingsDisplay === 'conference'" class="flex-container-conference">
     <div class="flex-items-conference">
       <div><h1>Western Standings</h1></div>
-      <StandingsTeam
-        v-for="(team, i) in westernConference"
-        :key="'wc' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in westernConference" :key="'wc' + i" :team="team" />
     </div>
     <div class="flex-items-conference">
       <div><h1>Eastern Standings</h1></div>
-      <StandingsTeam
-        v-for="(team, i) in easternConference"
-        :key="'wc' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in easternConference" :key="'wc' + i" :team="team" />
     </div>
   </div>
 
   <div v-if="standingsDisplay === 'division'" class="divisions">
     <div>
       <h1>Central</h1>
-      <StandingsTeam
-        v-for="(team, i) in centralDivision"
-        :key="'cd' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in centralDivision" :key="'cd' + i" :team="team" />
     </div>
     <div>
       <h1>Atlantic</h1>
-      <StandingsTeam
-        v-for="(team, i) in atlanticDivision"
-        :key="'ad' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in atlanticDivision" :key="'ad' + i" :team="team" />
     </div>
     <div>
       <h1>Pacific</h1>
-      <StandingsTeam
-        v-for="(team, i) in pacificDivision"
-        :key="'pd' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in pacificDivision" :key="'pd' + i" :team="team" />
     </div>
     <div>
       <h1>Metropolitan</h1>
-      <StandingsTeam
-        v-for="(team, i) in metropolitanDivision"
-        :key="'md' + i"
-        :team="team"
-      />
+      <StandingsTeam v-for="(team, i) in metropolitanDivision" :key="'md' + i" :team="team" />
     </div>
   </div>
 </template>
