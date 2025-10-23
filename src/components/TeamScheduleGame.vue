@@ -1,5 +1,15 @@
 <script setup>
-defineProps(["game"]);
+import { useRouter } from "vue-router";
+
+const props = defineProps(["game"]);
+const router = useRouter();
+
+const goToGame = () => {
+  if (props.game.gameState !== "FUT") {
+    console.log("to game: ", props.game.id);
+    router.push(`/game/${props.game.id}`);
+  }
+};
 </script>
 
 <template>
@@ -10,6 +20,7 @@ defineProps(["game"]);
       'focus-win': game.focusWin && !(game.gameState === 'FUT'),
       'focus-loss': !game.focusWin && !(game.gameState === 'FUT'),
     }"
+    @click="goToGame"
   >
     <div>
       <div>{{ game.gameDate }}</div>
@@ -41,6 +52,11 @@ defineProps(["game"]);
   row-gap: 4px;
   justify-content: start;
   align-items: center;
+}
+
+.game-grid:hover {
+  cursor: pointer;
+  border: black 2px solid;
 }
 
 .logo {
