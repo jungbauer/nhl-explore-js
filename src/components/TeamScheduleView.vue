@@ -2,14 +2,16 @@
 import useFetch from "@/composables/useFetch.js";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import TeamScheduleGame from "@/components/TeamScheduleGame.vue";
 
 const route = useRoute();
 const teamAbrev = route.params.team || "VGK";
 const season = "20252026";
 
-const allGames = ref([]);
-// const preSeasonGames = ref([]);
-// const regSeasonGames = ref([]);
+const typeDisplay = ref("regseason");
+
+const preSeasonGames = ref([]);
+const regSeasonGames = ref([]);
 const focusTeam = ref();
 
 const [startFetch] = useFetch(`/nhl/club-schedule-season/${teamAbrev}/${season}`);
@@ -21,25 +23,34 @@ const focusWin = (homeTeam, awayTeam) => {
   return (focusHome && homeWin) || (!focusHome && !homeWin);
 };
 
+const mapApiGame = (game) => {
+  return {
+    id: game.id,
+    gameType: game.gameType,
+    gameDate: game.gameDate,
+    gameState: game.gameState,
+    homeTeam: game.homeTeam,
+    awayTeam: game.awayTeam,
+    focusWin: focusWin(game.homeTeam, game.awayTeam),
+  };
+};
+
 onMounted(async () => {
   let scheduleData = await startFetch();
 
-  allGames.value = scheduleData.games.map((game) => {
-    return {
-      id: game.id,
-      gameType: game.gameType,
-      gameDate: game.gameDate,
-      gameState: game.gameState,
-      homeTeam: game.homeTeam,
-      awayTeam: game.awayTeam,
-      focusWin: focusWin(game.homeTeam, game.awayTeam),
-    };
+  scheduleData.games.forEach((game) => {
+    if (game.gameType === 1) {
+      preSeasonGames.value.push(mapApiGame(game));
+    }
+    if (game.gameType === 2) {
+      regSeasonGames.value.push(mapApiGame(game));
+    }
   });
 
-  if (allGames.value[0].homeTeam.abbrev === teamAbrev) {
-    focusTeam.value = JSON.parse(JSON.stringify(allGames.value[0].homeTeam));
+  if (preSeasonGames.value[0].homeTeam.abbrev === teamAbrev) {
+    focusTeam.value = JSON.parse(JSON.stringify(preSeasonGames.value[0].homeTeam));
   } else {
-    focusTeam.value = JSON.parse(JSON.stringify(allGames.value[0].awayTeam));
+    focusTeam.value = JSON.parse(JSON.stringify(preSeasonGames.value[0].awayTeam));
   }
 });
 </script>
@@ -54,69 +65,24 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div
-    v-for="(game, i) in allGames"
-    :key="i"
-    class="game-grid"
-    :class="{
-      'future-game': game.gameState === 'FUT',
-      'focus-win': game.focusWin && !(game.gameState === 'FUT'),
-      'focus-loss': !game.focusWin && !(game.gameState === 'FUT'),
-    }"
-  >
-    <div>
-      <div>{{ game.gameDate }}</div>
-      <div>{{ game.gameState }}</div>
-    </div>
-    <div>
-      <div>
-        <img :src="game.homeTeam.logo" alt="logo" class="logo" />
-      </div>
-      <!--      <div>{{ game.homeTeam.abbrev }}</div>-->
-      <div>{{ game.homeTeam.score }}</div>
-    </div>
-    <div>VS</div>
-    <div>
-      <div>
-        <img :src="game.awayTeam.logo" alt="logo" class="logo" />
-      </div>
-      <!--      <div>{{ game.awayTeam.abbrev }}</div>-->
-      <div>{{ game.awayTeam.score }}</div>
-    </div>
+  <div>Displaying {{ typeDisplay }}</div>
+  <select v-model="typeDisplay">
+    <option value="preseason">Pre-Season</option>
+    <option value="regseason">Regular Season</option>
+  </select>
+
+  <div v-if="typeDisplay === 'preseason'">
+    <TeamScheduleGame v-for="(game, i) in preSeasonGames" :key="'pre' + i" :game="game" />
+  </div>
+  <div v-if="typeDisplay === 'regseason'">
+    <TeamScheduleGame v-for="(game, i) in regSeasonGames" :key="'reg' + i" :game="game" />
   </div>
 </template>
 
 <style scoped>
-.game-grid {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  column-gap: 4px;
-  row-gap: 4px;
-  justify-content: start;
-  align-items: center;
-}
-
-.logo {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-}
-
 .logo-main {
   width: 300px;
   height: 300px;
   object-fit: contain;
-}
-
-.future-game {
-  background-color: darkgray;
-}
-
-.focus-win {
-  background-color: #8fc138;
-}
-
-.focus-loss {
-  background-color: #f3a4a4;
 }
 </style>
