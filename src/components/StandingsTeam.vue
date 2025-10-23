@@ -1,10 +1,17 @@
 <script setup>
-defineProps(["team"]);
+import { useRouter } from "vue-router";
+
+const props = defineProps(["team"]);
+const router = useRouter();
+
+const goToSchedule = () => {
+  router.push(`/schedule/${props.team.teamAbbrev}`);
+};
 </script>
 
 <template>
   <div class="parent">
-    <div>
+    <div class="team-logo" @click="goToSchedule">
       <img :src="team.teamLogo" alt="logo" class="logo" />
     </div>
     <div class="team">
@@ -27,8 +34,8 @@ defineProps(["team"]);
 
 .parent {
   display: grid;
-  grid-template-columns: 60px auto 50px;
-  grid-template-rows: 60px;
+  grid-template-columns: 66px auto 50px;
+  grid-template-rows: 66px;
   grid-column-gap: 5px;
   background-color: #cccccc;
   margin-bottom: 8px;
@@ -51,5 +58,16 @@ defineProps(["team"]);
   height: 100%;
   display: grid;
   place-items: center;
+}
+
+.team-logo {
+  background-color: white;
+  display: grid;
+  place-items: center;
+}
+
+.team-logo:hover {
+  cursor: pointer;
+  border: black 3px solid;
 }
 </style>

@@ -1,9 +1,10 @@
 <script setup>
 import useFetch from "@/composables/useFetch.js";
 import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
-const props = defineProps(["teamAbrev"]);
-const teamAbrev = props.teamAbrev || "VGK";
+const route = useRoute();
+const teamAbrev = route.params.team || "VGK";
 const season = "20252026";
 
 const allGames = ref([]);

@@ -34,6 +34,7 @@ onMounted(async () => {
       gamesPlayed: elem.gamesPlayed,
       conference: elem.conferenceName,
       division: elem.divisionName,
+      teamAbbrev: elem.teamAbbrev.default,
     };
   });
 
