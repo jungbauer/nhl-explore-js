@@ -76,7 +76,8 @@ const useRinkDraw = () => {
   function drawText(ctx, text, x, y) {
     ctx.save();
     ctx.font = "15px Arial";
-    ctx.fillStyle = "#9109df";
+    // ctx.fillStyle = "#9109df";
+    ctx.fillStyle = "#cccccc";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(text, x, y);
@@ -88,7 +89,8 @@ const useRinkDraw = () => {
     const centerY = 85 / 2;
     const x = centerX + value.xCoord;
     const y = centerY - value.yCoord;
-    drawCircle(ctx, rx(x), ry(y), rx(1), "#9109df");
+    // drawCircle(ctx, rx(x), ry(y), rx(1), "#9109df");
+    drawFilledCircle(ctx, rx(x), ry(y), rx(2), "#9109df");
     drawText(ctx, index.toString(), rx(x), ry(y));
   }
 
@@ -145,7 +147,7 @@ const useRinkDraw = () => {
 
     goals.forEach((goal, index) => {
       console.log("goal", goal, index);
-      drawGoal(goal, index, ctx, rx, ry);
+      drawGoal(goal, index + 1, ctx, rx, ry);
     });
   };
 
