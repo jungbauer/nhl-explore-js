@@ -22,7 +22,8 @@ onMounted(async () => {
   playData.value.rosterSpots = apiPlayData.rosterSpots;
 
   // add player info to goals
-  playData.value.goals.forEach((goal) => {
+  playData.value.goals.forEach((goal, index) => {
+    goal.mainIndex = index;
     goal.scoringPlayer = playData.value.rosterSpots.find(
       (player) => player.playerId === goal.details.scoringPlayerId,
     );
@@ -80,7 +81,7 @@ onMounted(async () => {
     <div class="goals">
       <div class="home-goals">
         <div v-for="(goal, i) in playData.homeGoals" :key="'hg' + i">
-          P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
+          {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
           {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
           <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
         </div>
@@ -88,7 +89,7 @@ onMounted(async () => {
       <div></div>
       <div class="away-goals">
         <div v-for="(goal, i) in playData.awayGoals" :key="'ag' + i">
-          P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
+          {{ goal.mainIndex + 1 }}. P{{ goal.periodDescriptor.number }} {{ goal.timeInPeriod }} -
           {{ goal.scoringPlayer.firstName.default }} {{ goal.scoringPlayer.lastName.default }}
           <img :src="goal.scoringPlayer.headshot" alt="headshot" class="headshot" />
         </div>
