@@ -4,7 +4,7 @@
   <h1>Hello App!</h1>
   <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
   <nav>
-    <RouterLink to="/">Go to Standings</RouterLink>
+    <RouterLink to="/nhl-explore-js/">Go to Standings</RouterLink>
   </nav>
   <main>
     <RouterView />

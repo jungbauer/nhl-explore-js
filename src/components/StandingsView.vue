@@ -18,7 +18,7 @@ const month = (now.getMonth() + 1).toString().padStart(2, "0");
 const day = now.getDate().toString().padStart(2, "0");
 const formattedDate = `${year}-${month}-${day}`;
 
-const [startFetch] = useFetch(`/nhl/standings/${formattedDate}`);
+const [startFetch] = useFetch(`/api/standings/${formattedDate}`);
 
 onMounted(async () => {
   let teamsData = await startFetch();

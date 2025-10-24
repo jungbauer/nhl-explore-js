@@ -6,6 +6,7 @@ import vueDevTools from "vite-plugin-vue-devtools";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/nhl-explore-js/", // here for GitHub Pages hosting
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
@@ -14,10 +15,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/nhl": {
+      "/api": {
         target: "https://api-web.nhle.com/v1",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/nhl/, ""),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },

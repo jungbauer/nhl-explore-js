@@ -8,7 +8,7 @@ const route = useRoute();
 const mountComplete = ref(false);
 const playData = ref({ gameId: route.params.gameId });
 
-const [startFetch] = useFetch(`/nhl/gamecenter/${route.params.gameId}/play-by-play`);
+const [startFetch] = useFetch(`/api/gamecenter/${route.params.gameId}/play-by-play`);
 const [drawRink] = useRinkDraw();
 
 onMounted(async () => {

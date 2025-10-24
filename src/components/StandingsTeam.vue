@@ -5,7 +5,7 @@ const props = defineProps(["team"]);
 const router = useRouter();
 
 const goToSchedule = () => {
-  router.push(`/schedule/${props.team.teamAbbrev}`);
+  router.push(`/nhl-explore-js/schedule/${props.team.teamAbbrev}`);
 };
 </script>
 

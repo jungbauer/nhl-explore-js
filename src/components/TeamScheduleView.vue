@@ -14,7 +14,7 @@ const preSeasonGames = ref([]);
 const regSeasonGames = ref([]);
 const focusTeam = ref();
 
-const [startFetch] = useFetch(`/nhl/club-schedule-season/${teamAbrev}/${season}`);
+const [startFetch] = useFetch(`/api/club-schedule-season/${teamAbrev}/${season}`);
 
 const focusWin = (homeTeam, awayTeam) => {
   let homeWin = homeTeam.score > awayTeam.score;
