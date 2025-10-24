@@ -55,24 +55,37 @@ onMounted(async () => {
   <div v-if="mountComplete === true">
     <div class="stats">
       <div class="home-stats">
-        <img :src="playData.homeTeam.logo" alt="logo" class="logo" />
         <div>
-          {{ playData.homeTeam.placeName.default }} {{ playData.homeTeam.commonName.default }}
+          <div class="logo-grid">
+            <img :src="playData.homeTeam.logo" alt="logo" class="logo" />
+          </div>
+          <div>
+            {{ playData.homeTeam.placeName.default }} {{ playData.homeTeam.commonName.default }}
+          </div>
         </div>
-        <div>{{ playData.homeTeam.score }}</div>
-        <div>({{ playData.homeTeam.sog }})</div>
+        <div>
+          <div>{{ playData.homeTeam.score }}</div>
+          <div>({{ playData.homeTeam.sog }})</div>
+        </div>
       </div>
       <div>
         <div>VS</div>
         <div>{{ playData.gameOutcome.lastPeriodType }}</div>
       </div>
       <div class="away-stats">
-        <img :src="playData.awayTeam.logo" alt="logo" class="logo" />
         <div>
-          {{ playData.awayTeam.placeName.default }} {{ playData.awayTeam.commonName.default }}
+          <div>{{ playData.awayTeam.score }}</div>
+          <div>({{ playData.awayTeam.sog }})</div>
         </div>
-        <div>{{ playData.awayTeam.score }}</div>
-        <div>({{ playData.awayTeam.sog }})</div>
+        <div>
+          <div class="logo-grid">
+            <img :src="playData.awayTeam.logo" alt="logo" class="logo" />
+          </div>
+
+          <div>
+            {{ playData.awayTeam.placeName.default }} {{ playData.awayTeam.commonName.default }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -109,6 +122,10 @@ onMounted(async () => {
   height: 100px;
   object-fit: contain;
 }
+.logo-grid {
+  display: grid;
+  place-items: center;
+}
 .headshot {
   width: 100px;
   height: 100px;
@@ -118,6 +135,14 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: auto 50px auto;
   justify-content: center;
+}
+.home-stats {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.away-stats {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 .goals {
   display: grid;
