@@ -1,11 +1,11 @@
 <script setup>
-import useFetch from "@/composables/useFetch.js";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import TeamScheduleGame from "@/components/TeamScheduleGame.vue";
+import fetchTeamSchedule from "@/composables/nhl/fetchTeamSchedule.js";
 
 const route = useRoute();
-const teamAbrev = route.params.team || "VGK";
+const teamAbbrev = route.params.team || "VGK";
 const season = "20252026";
 
 const typeDisplay = ref("regseason");
@@ -14,11 +14,11 @@ const preSeasonGames = ref([]);
 const regSeasonGames = ref([]);
 const focusTeam = ref();
 
-const [startFetch] = useFetch(`/api/club-schedule-season/${teamAbrev}/${season}`);
+const [startFetch] = fetchTeamSchedule(teamAbbrev, season);
 
 const focusWin = (homeTeam, awayTeam) => {
   let homeWin = homeTeam.score > awayTeam.score;
-  let focusHome = homeTeam.abbrev === teamAbrev;
+  let focusHome = homeTeam.abbrev === teamAbbrev;
 
   return (focusHome && homeWin) || (!focusHome && !homeWin);
 };
@@ -47,7 +47,7 @@ onMounted(async () => {
     }
   });
 
-  if (preSeasonGames.value[0].homeTeam.abbrev === teamAbrev) {
+  if (preSeasonGames.value[0].homeTeam.abbrev === teamAbbrev) {
     focusTeam.value = JSON.parse(JSON.stringify(preSeasonGames.value[0].homeTeam));
   } else {
     focusTeam.value = JSON.parse(JSON.stringify(preSeasonGames.value[0].awayTeam));
@@ -61,7 +61,7 @@ onMounted(async () => {
       <img :src="focusTeam.logo" alt="logo" class="logo-main" />
     </div>
     <div>
-      {{ focusTeam.placeName.default }} {{ focusTeam.commonName.default }} ({{ teamAbrev }})
+      {{ focusTeam.placeName.default }} {{ focusTeam.commonName.default }} ({{ teamAbbrev }})
     </div>
   </div>
 

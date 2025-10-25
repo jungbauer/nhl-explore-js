@@ -1,14 +1,14 @@
 <script setup>
-import useFetch from "@/composables/useFetch.js";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import useRinkDraw from "@/composables/useRinkDraw.js";
+import fetchGamePlayByPlay from "@/composables/nhl/fetchGamePlayByPlay.js";
 
 const route = useRoute();
 const mountComplete = ref(false);
 const playData = ref({ gameId: route.params.gameId });
 
-const [startFetch] = useFetch(`/api/gamecenter/${route.params.gameId}/play-by-play`);
+const [startFetch] = fetchGamePlayByPlay(route.params.gameId);
 const [drawRink] = useRinkDraw();
 
 onMounted(async () => {
@@ -40,7 +40,6 @@ onMounted(async () => {
     }
   });
 
-  console.log("playData", playData.value);
   mountComplete.value = true;
 
   const canvas = document.getElementById("rink");
