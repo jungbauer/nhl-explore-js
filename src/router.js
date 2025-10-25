@@ -3,12 +3,10 @@ import StandingsView from "@/components/StandingsView.vue";
 import TeamScheduleView from "@/components/TeamScheduleView.vue";
 import GameView from "@/components/GameView.vue";
 
-const baseUrl = "/nhl-explore-js";
-
 const routes = [
-  { path: `${baseUrl}/`, component: StandingsView },
-  { path: `${baseUrl}/schedule/:team`, component: TeamScheduleView },
-  { path: `${baseUrl}/game/:gameId`, component: GameView },
+  { path: `${import.meta.env.BASE_URL}`, component: StandingsView },
+  { path: `${import.meta.env.BASE_URL}schedule/:team`, component: TeamScheduleView },
+  { path: `${import.meta.env.BASE_URL}game/:gameId`, component: GameView },
 ];
 
 export const router = createRouter({

@@ -1,10 +1,12 @@
-<script setup></script>
+<script setup>
+const baseUrl = import.meta.env.BASE_URL;
+</script>
 
 <template>
   <h1>Hello App!</h1>
   <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
   <nav>
-    <RouterLink to="/nhl-explore-js/">Go to Standings</RouterLink>
+    <RouterLink :to="baseUrl">Go to Standings</RouterLink>
   </nav>
   <main>
     <RouterView />
