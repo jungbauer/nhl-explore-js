@@ -6,8 +6,7 @@ const router = useRouter();
 
 const goToGame = () => {
   if (props.game.gameState !== "FUT") {
-    console.log("to game: ", props.game.id);
-    router.push(`/nhl-explore-js/game/${props.game.id}`);
+    router.push(`${import.meta.env.BASE_URL}game/${props.game.id}`);
   }
 };
 </script>
