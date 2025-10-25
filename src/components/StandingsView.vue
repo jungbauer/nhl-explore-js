@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import useFetch from "@/composables/useFetch.js";
 import StandingsTeam from "@/components/StandingsTeam.vue";
+import fetchStandings from "@/composables/nhl/fetchStandings.js";
 
 const standingsDisplay = ref("league");
 const teams = ref([]);
@@ -12,17 +12,7 @@ const metropolitanDivision = ref([]);
 const centralDivision = ref([]);
 const pacificDivision = ref([]);
 
-const now = new Date();
-const year = now.getFullYear();
-const month = (now.getMonth() + 1).toString().padStart(2, "0");
-const day = now.getDate().toString().padStart(2, "0");
-const formattedDate = `${year}-${month}-${day}`;
-
-const test = import.meta.env.VITE_SOME_TEST2;
-console.log("Standings test", test);
-console.log("env meta", import.meta.env);
-
-const [startFetch] = useFetch(`/api/standings/${formattedDate}`);
+const [startFetch] = fetchStandings();
 
 onMounted(async () => {
   let teamsData = await startFetch();
