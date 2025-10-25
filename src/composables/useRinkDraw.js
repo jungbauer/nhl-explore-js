@@ -146,7 +146,6 @@ const useRinkDraw = () => {
     drawCreaseRight(ctx, rx, ry);
 
     goals.forEach((goal, index) => {
-      console.log("goal", goal, index);
       drawGoal(goal, index + 1, ctx, rx, ry);
     });
   };
