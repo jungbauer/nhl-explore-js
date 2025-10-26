@@ -1,7 +1,9 @@
 import useFetch from "@/composables/useFetch.js";
 
 const fetchGamePlayByPlay = (gameId) => {
-  const [startFetch] = useFetch(`/api/gamecenter/${gameId}/play-by-play`);
+  const [startFetch] = useFetch(
+    `${import.meta.env.VITE_API_URL}/nhl/gamecenter-playbyplay?gameId=${gameId}`,
+  );
 
   const startFetchGamePlayByPlay = async () => {
     return await startFetch();
